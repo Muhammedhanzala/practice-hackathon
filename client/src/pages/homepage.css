@@ -1,0 +1,88 @@
+.homepage {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Section */
+.home-section {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f9f9f9, #eef3ff);
+}
+
+/* Headings */
+.home-section h2 {
+  font-size: 40px;
+  color: #222;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+/* Paragraph */
+.home-section p {
+  font-size: 18px;
+  color: #555;
+  max-width: 600px;
+  margin-bottom: 25px;
+}
+
+/* Button */
+.home-section button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  font-size: 17px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.home-section button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* === Responsive === */
+@media (max-width: 992px) {
+  .home-section h2 {
+    font-size: 34px;
+  }
+  .home-section p {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-section h2 {
+    font-size: 28px;
+  }
+  .home-section p {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+  .home-section button {
+    font-size: 15px;
+    padding: 10px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-section h2 {
+    font-size: 24px;
+  }
+  .home-section p {
+    font-size: 15px;
+  }
+  .home-section button {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+}
