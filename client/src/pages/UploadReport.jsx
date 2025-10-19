@@ -1,50 +1,55 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./UploadReport.css";
 
 const UploadReport = () => {
   const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(false); // Upload state
+  const [message, setMessage] = useState(""); // Response message
 
   const handleUpload = async () => {
-    if (!file) return alert("Please select a file!");
-    setUploading(true);
+    if (!file) {
+      setMessage("⚠️ Please select an image first!");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
+    setLoading(true);
+    setMessage("");
 
     try {
-      const res = await fetch("http://localhost:8000/api/upload/upload", {
-        method: "POST",
-        body: formData,
+      const res = await axios.post("http://localhost:8000/api/upload/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(`✅ File "${file.name}" uploaded successfully!\nURL: ${data.url}`);
-        console.log("Uploaded File URL:", data.url);
-      } else {
-        alert(`❌ Upload failed: ${data.message}`);
-      }
+      setImageUrl(res.data.url);
+      setMessage("✅ Image uploaded successfully!");
     } catch (err) {
-      console.error("Upload error:", err);
-      alert("Error uploading file!");
+      console.error(err);
+      setMessage("❌ Upload failed!");
     } finally {
-      setUploading(false);
+      setLoading(false);
     }
   };
 
   return (
     <div className="upload-container">
-      <h2>Upload Your Medical Report 📄</h2>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={uploading}>
-        {uploading ? "Uploading..." : "Upload"}
+      <h2>Upload Image to Cloudinary</h2>
+      
+      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+      <button onClick={handleUpload} disabled={loading}>
+        {loading ? "Uploading..." : "Upload"}
       </button>
+
+      {message && <p className="response-message">{message}</p>}
+
+      {imageUrl && (
+        <div className="image-preview">
+          <h3>Uploaded Image:</h3>
+          <img src={imageUrl} alt="Uploaded" />
+        </div>
+      )}
     </div>
   );
 };
